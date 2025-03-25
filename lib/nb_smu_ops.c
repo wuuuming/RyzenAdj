@@ -102,17 +102,17 @@ smu_t get_smu(nb_t nb, int smu_type) {
 			}
 			break;
 		case TYPE_PSMU:
-			switch(family){
-			case FAM_DRAGON_RANGE:
-				smu->msg = PSMU_C2PMSG_MESSAGE_ADDR_2;
-				smu->rep = PSMU_C2PMSG_RESPONSE_ADDR_2;
-				smu->arg_base = PSMU_C2PMSG_ARG_BASE_2;
-				break;
-			default:
-				smu->msg = PSMU_C2PMSG_MESSAGE_ADDR;
-				smu->rep = PSMU_C2PMSG_RESPONSE_ADDR;
-				smu->arg_base = PSMU_C2PMSG_ARG_BASE;
-				break;
+			switch(family) {
+				case FAM_DRAGON_RANGE:
+					smu->msg = PSMU_C2PMSG_MESSAGE_ADDR_2;
+					smu->rep = PSMU_C2PMSG_RESPONSE_ADDR_2;
+					smu->arg_base = PSMU_C2PMSG_ARG_BASE_2;
+					break;
+				default:
+					smu->msg = PSMU_C2PMSG_MESSAGE_ADDR;
+					smu->rep = PSMU_C2PMSG_RESPONSE_ADDR;
+					smu->arg_base = PSMU_C2PMSG_ARG_BASE;
+					break;
 			}
 			break;
 		default:

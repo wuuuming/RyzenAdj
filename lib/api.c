@@ -142,6 +142,9 @@ static int request_table_ver_and_size(ryzen_access ry)
 	case FAM_STRIXPOINT:
 		get_table_ver_msg = 0x6;
 		break;
+	case FAM_DRAGON_RANGE:
+		get_table_ver_msg = 0x5;
+		break;
 	default:
 		printf("request_table_ver_and_size is not supported on this family\n");
 		return ADJ_ERR_FAM_UNSUPPORTED;
@@ -175,9 +178,10 @@ static int request_table_ver_and_size(ryzen_access ry)
 	case 0x450004: ry->table_size = 0xA44; break;
 	case 0x450005: ry->table_size = 0xA44; break;
 	case 0x4C0006: ry->table_size = 0xAA0; break;
+	case 0x540208: ry->table_size = 0x8C4; break;
 		default:
 			//use a larger size then the largest known table to be able to test real table size of unknown tables
-			ry->table_size = 0xA00;
+			ry->table_size = 0x1000;
 	}
 
 	if (resp != REP_MSG_OK) {
@@ -212,6 +216,10 @@ static int request_table_addr(ryzen_access ry)
 	case FAM_STRIXPOINT:
 		get_table_addr_msg = 0x66;
 		break;
+	case FAM_DRAGON_RANGE:
+		get_table_addr_msg = 0x4;
+		args.arg0 = 1;
+		break;
 	default:
 		printf("request_table_addr is not supported on this family\n");
 		return ADJ_ERR_FAM_UNSUPPORTED;
@@ -224,6 +232,7 @@ static int request_table_addr(ryzen_access ry)
 	case FAM_REMBRANDT:
 	case FAM_PHOENIX:
 	case FAM_HAWKPOINT:
+	case FAM_DRAGON_RANGE:
 	case FAM_STRIXPOINT:
 		ry->table_addr = (uint64_t) args.arg1 << 32 | args.arg0;
 		break;
@@ -262,6 +271,9 @@ static int request_transfer_table(ryzen_access ry)
 	case FAM_HAWKPOINT:
 	case FAM_STRIXPOINT:
 		transfer_table_msg = 0x65;
+		break;
+	case FAM_DRAGON_RANGE:
+		transfer_table_msg = 0x3;
 		break;
 	default:
 		printf("request_transfer_table is not supported on this family\n");
@@ -596,6 +608,14 @@ EXP int CALL set_tctl_temp(ryzen_access ry, uint32_t value){
 	case FAM_HAWKPOINT:
 	case FAM_STRIXPOINT:
 		_do_adjust(0x19);
+		break;
+	case FAM_DRAGON_RANGE:
+		_do_adjust(0x3f);
+		if (err) {
+			printf("%s: Retry with PSMU\n", __func__);
+			_do_adjust_psmu(0x59);
+		}
+		break;
 	default:
 		break;
 	}
@@ -1213,6 +1233,8 @@ EXP int CALL set_oc_clk(ryzen_access ry, uint32_t value) {
 		    _do_adjust_psmu(0x19);
         }
 		break;
+	case FAM_DRAGON_RANGE:
+		_do_adjust(0x5f);
 	default:
 		break;
 	}
@@ -1234,6 +1256,9 @@ EXP int CALL set_per_core_oc_clk(ryzen_access ry, uint32_t value) {
 		    _do_adjust_psmu(0x1a);
         }
 		break;
+	case FAM_DRAGON_RANGE:
+		_do_adjust(0x60);
+		break;
 	default:
 		break;
 	}
@@ -1253,6 +1278,9 @@ EXP int CALL set_oc_volt(ryzen_access ry, uint32_t value) {
             printf("%s: Retry with PSMU\n", __func__);
 		    _do_adjust_psmu(0x1b);
         }
+		break;
+	case FAM_DRAGON_RANGE:
+		_do_adjust(0x61);
 		break;
 	default:
 		break;
@@ -1278,6 +1306,9 @@ EXP int CALL set_disable_oc(ryzen_access ry) {
 	case FAM_REMBRANDT:
 		_do_adjust_psmu(0x18);
 		break;
+	case FAM_DRAGON_RANGE:
+		_do_adjust(0x5e);
+		break;
 	default:
 		break;
 	}
@@ -1297,6 +1328,9 @@ EXP int CALL set_enable_oc(ryzen_access ry) {
 		break;
 	case FAM_REMBRANDT:
 		_do_adjust_psmu(0x17);
+		break;
+	case FAM_DRAGON_RANGE:
+		_do_adjust(0x60);
 		break;
 	default:
 		break;
@@ -1371,54 +1405,6 @@ EXP int CALL set_cogfx(ryzen_access ry, uint32_t value) {
 		_do_adjust_psmu(0xB7);
 		break;
 	default:
-		break;
-	}
-	return err;
-}
-
-EXP int CALL set_ppt(ryzen_access ry, uint32_t value) {
-	int err = ADJ_ERR_FAM_UNSUPPORTED;
-
-	switch (ry->family)
-	{
-	case FAM_DRAGON_RANGE:
-		_do_adjust_psmu(0x56);
-		break;
-	}
-	return err;
-}
-
-EXP int CALL set_tdc(ryzen_access ry, uint32_t value) {
-	int err = ADJ_ERR_FAM_UNSUPPORTED;
-
-	switch (ry->family)
-	{
-	case FAM_DRAGON_RANGE:
-		_do_adjust_psmu(0x57);
-		break;
-	}
-	return err;
-}
-
-EXP int CALL set_edc(ryzen_access ry, uint32_t value) {
-	int err = ADJ_ERR_FAM_UNSUPPORTED;
-
-	switch (ry->family)
-	{
-	case FAM_DRAGON_RANGE:
-		_do_adjust_psmu(0x58);
-		break;
-	}
-	return err;
-}
-
-EXP int CALL set_htc(ryzen_access ry, uint32_t value) {
-	int err = ADJ_ERR_FAM_UNSUPPORTED;
-
-	switch (ry->family)
-	{
-	case FAM_DRAGON_RANGE:
-		_do_adjust_psmu(0x59);
 		break;
 	}
 	return err;

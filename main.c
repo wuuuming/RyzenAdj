@@ -249,10 +249,6 @@ int main(int argc, const char **argv)
 		OPT_U32('\0', "set-coall", &coall, "All core Curve Optimiser"),
 		OPT_U32('\0', "set-coper", &coper, "Per core Curve Optimiser"),
 		OPT_U32('\0', "set-cogfx", &cogfx, "iGPU Curve Optimiser"),
-		OPT_U32('\0', "set-ppt", &ppt, "PPT limit for chiplet based mobile CPUs"),
-		OPT_U32('\0', "set-tdc", &tdc, "TDC limit for chiplet based mobile CPUs"),
-		OPT_U32('\0', "set-edc", &edc, "EDC limit for chiplet based mobile CPUs"),
-		OPT_U32('\0', "set-htc", &htc, "Thermal limit for chiplet based mobile CPUs"),
 		OPT_BOOLEAN('\0', "power-saving", &power_saving, "Hidden options to improve power efficiency (is set when AC unplugged): behavior depends on CPU generation, Device and Manufacture"),
 		OPT_BOOLEAN('\0', "max-performance", &max_performance, "Hidden options to improve performance (is set when AC plugged in): behavior depends on CPU generation, Device and Manufacture"),
 		OPT_GROUP("P-State Functions"),
@@ -329,10 +325,6 @@ int main(int argc, const char **argv)
 	_do_adjust(coall);
 	_do_adjust(coper);
 	_do_adjust(cogfx);
-	_do_adjust(ppt);
- 	_do_adjust(tdc);
- 	_do_adjust(edc);
- 	_do_adjust(htc);
 
 	if (!err) {
 		//call show table dump before anybody did call table refresh, because we want to copy the old values first
