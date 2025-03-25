@@ -1320,6 +1320,9 @@ EXP int CALL set_coall(ryzen_access ry, uint32_t value) {
 	case FAM_HAWKPOINT:
 		_do_adjust(0x4C);
 		break;
+	case FAM_DRAGON_RANGE:
+		_do_adjust_psmu(0x7);
+		break;
 	default:
 		break;
 	}
@@ -1341,6 +1344,9 @@ EXP int CALL set_coper(ryzen_access ry, uint32_t value) {
 	case FAM_VANGOGH:
 	case FAM_HAWKPOINT:
 		_do_adjust(0x4b);
+		break;
+	case FAM_DRAGON_RANGE:
+		_do_adjust_psmu(0x6);
 		break;
 	default:
 		break;
@@ -1365,6 +1371,54 @@ EXP int CALL set_cogfx(ryzen_access ry, uint32_t value) {
 		_do_adjust_psmu(0xB7);
 		break;
 	default:
+		break;
+	}
+	return err;
+}
+
+EXP int CALL set_ppt(ryzen_access ry, uint32_t value) {
+	int err = ADJ_ERR_FAM_UNSUPPORTED;
+
+	switch (ry->family)
+	{
+	case FAM_DRAGON_RANGE:
+		_do_adjust_psmu(0x56);
+		break;
+	}
+	return err;
+}
+
+EXP int CALL set_tdc(ryzen_access ry, uint32_t value) {
+	int err = ADJ_ERR_FAM_UNSUPPORTED;
+
+	switch (ry->family)
+	{
+	case FAM_DRAGON_RANGE:
+		_do_adjust_psmu(0x57);
+		break;
+	}
+	return err;
+}
+
+EXP int CALL set_edc(ryzen_access ry, uint32_t value) {
+	int err = ADJ_ERR_FAM_UNSUPPORTED;
+
+	switch (ry->family)
+	{
+	case FAM_DRAGON_RANGE:
+		_do_adjust_psmu(0x58);
+		break;
+	}
+	return err;
+}
+
+EXP int CALL set_htc(ryzen_access ry, uint32_t value) {
+	int err = ADJ_ERR_FAM_UNSUPPORTED;
+
+	switch (ry->family)
+	{
+	case FAM_DRAGON_RANGE:
+		_do_adjust_psmu(0x59);
 		break;
 	}
 	return err;

@@ -53,6 +53,15 @@ enum SMU_TYPE{
 #define PSMU_C2PMSG_RESPONSE_ADDR         0x3B10a80
 #define PSMU_C2PMSG_ARG_BASE              0x3B10a88
 
+/* For Raphael/Dragon Range */
+#define MP1_C2PMSG_MESSAGE_ADDR_4	0x3B10530
+#define MP1_C2PMSG_RESPONSE_ADDR_4	0x3B1057C
+#define MP1_C2PMSG_ARG_BASE_4		0x3B109C4
+
+#define PSMU_C2PMSG_MESSAGE_ADDR_2          0x03B10524
+#define PSMU_C2PMSG_RESPONSE_ADDR_2         0x03B10570
+#define PSMU_C2PMSG_ARG_BASE_2              0x03B10A40
+
 #define REP_MSG_OK                    0x1
 #define REP_MSG_Failed                0xFF
 #define REP_MSG_UnknownCmd            0xFE

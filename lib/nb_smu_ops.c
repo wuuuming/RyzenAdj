@@ -89,6 +89,11 @@ smu_t get_smu(nb_t nb, int smu_type) {
 				smu->rep = MP1_C2PMSG_RESPONSE_ADDR_3;
 				smu->arg_base = MP1_C2PMSG_ARG_BASE_3;
 				break;
+			case FAM_DRAGON_RANGE:
+				smu->msg = MP1_C2PMSG_MESSAGE_ADDR_4;
+				smu->rep = MP1_C2PMSG_RESPONSE_ADDR_4;
+				smu->arg_base = MP1_C2PMSG_ARG_BASE_4;
+				break;
 			default:
 				smu->msg = MP1_C2PMSG_MESSAGE_ADDR_1;
 				smu->rep = MP1_C2PMSG_RESPONSE_ADDR_1;
@@ -97,9 +102,18 @@ smu_t get_smu(nb_t nb, int smu_type) {
 			}
 			break;
 		case TYPE_PSMU:
-			smu->msg = PSMU_C2PMSG_MESSAGE_ADDR;
-			smu->rep = PSMU_C2PMSG_RESPONSE_ADDR;
-			smu->arg_base = PSMU_C2PMSG_ARG_BASE;
+			switch(family){
+			case FAM_DRAGON_RANGE:
+				smu->msg = PSMU_C2PMSG_MESSAGE_ADDR_2;
+				smu->rep = PSMU_C2PMSG_RESPONSE_ADDR_2;
+				smu->arg_base = PSMU_C2PMSG_ARG_BASE_2;
+				break;
+			default:
+				smu->msg = PSMU_C2PMSG_MESSAGE_ADDR;
+				smu->rep = PSMU_C2PMSG_RESPONSE_ADDR;
+				smu->arg_base = PSMU_C2PMSG_ARG_BASE;
+				break;
+			}
 			break;
 		default:
 			DBG("Failed to get SMU, unknown SMU_TYPE: %i\n", smu_type);
